@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Spacekawa Explorations Private Limited</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script  src="https://code.jquery.com/jquery-3.4.1.min.js"  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="  crossorigin="anonymous"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js" integrity="sha256-sPB0F50YUDK0otDnsfNHawYmA5M0pjjUf4TvRJkGFrI=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <link rel="stylesheet" href="https://cdn.rawgit.com/LeaVerou/awesomplete/gh-pages/awesomplete.css">
+    <script type="text/javascript" src="https://cdn.rawgit.com/LeaVerou/awesomplete/gh-pages/awesomplete.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" >
+    $(document).ready(function()
+    {
+      $('.ui.button').click(function(e){
+        e.preventDefault();
+        $.ajax({
+        type:'get',
+        url: "https://restcountries.eu/rest/v2/name/"+$('#country').val()+"?fullText="+true,
+        success: function (response) {
+         document.getElementById("Cname").innerHTML=response[0].name;
+         $('#r1').html(response[0].region);
+         $('#r2').html(response[0].capital);
+         $('#r3').html(response[0].population);
+         $('#r4').html(response[0].languages[0].name);
+         $('#r5').html(response[0].currencies[0].code);
+         $('#r6').html(response[0].timezones);
+       },
+       error: function() {
+        $('#result').html('<p>An error has occurred</p>');
+        }
+        });
+      });
+    var input = document.getElementById("country");
+    var awesomplete = new Awesomplete(input, {
+    minChars: 1,
+    autoFirst: true
+    });
+    $("input").on("keyup", function(){
+    $.ajax({
+    url: 'https://restcountries.eu/rest/v1/region/' + $('#reg').val(),
+    type: 'GET',
+    dataType: 'json'
+    })
+    .success(function(data) {
+    var list = [];
+    $.each(data, function(key, value) {
+    list.push(value.name);
+    });
+    awesomplete.list = list;
+    });
+    });
+  });
+    </script>
+    <style media="screen">
+      body{
+        background-image:url("d.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        width: 100%;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="ui red center aligned raised very padded container segment" style="margin-top:20px;">
+      <h2 class="ui center aligned header">Country Search</h2>
+      <select class="ui dropdown" id="reg" style="border-radius: 10px;padding:10px;height:40px">
+        <option value="">Region</option>
+        <option value="Africa">Africa</option>
+        <option value="Americas">Americas</option>
+        <option value="Asia">Asia</option>
+        <option value="Europe">Europe</option>
+        <option value="Oceania">Oceania</option>
+      </select>
+        <input  type="text" id="country" placeholder="Search Country" style="height:38px;border-radius: 10px;padding:10px;">
+        <button type="button" name="button" class="ui teal button">Search</button>
+    </div>
+    <div class="ui raised very padded container segments">
+      <div class="ui inverted segment">
+        <h3 class="ui red center aligned inverted header" id="Cname">Country</h3>
+      </div>
+      <div class="ui teal segment">
+        <p >Region</p>
+        <h3 class="ui header" id="r1"></h3>
+      </div>
+      <div class="ui purple segment" >
+        <p >Capital</p>
+        <h3 class="ui header" id="r2"></h3>
+      </div>
+      <div class="ui blue segment" >
+        <p >Population</p>
+        <h3 class="ui header" id="r3"></h3>
+      </div>
+      <div class="ui green segment" >
+        <p >Language</p>
+        <h3 class="ui header" id="r4"></h3>
+      </div>
+      <div class="ui pink segment">
+        <p >Currency</p>
+        <h3 class="ui header" id="r5"></h3>
+      </div>
+      <div class="ui yellow segment" >
+        <p >TimeZone</p>
+        <h3 class="ui header" id="r6"></h3>
+      </div>
+    </div>
+  </body>
+</html>
